@@ -57,7 +57,7 @@ export function OrderConfirmationContent({ settings }: OrderConfirmationContentP
     const message = [
       `Hello Famous Kitchen,`,
       ``,
-      `Order #${o.order_number}`,
+      `I placed order #${o.order_number} and would like to follow up.`,
       ``,
       `Items:`,
       items,
@@ -68,10 +68,7 @@ export function OrderConfirmationContent({ settings }: OrderConfirmationContentP
       `Total: ${formatCurrency(o.total)}`,
       ``,
       deliveryLine,
-      `Payment status: Awaiting verification`,
-      ``,
-      `Name: ${o.customer_name}`,
-      `Phone: ${o.phone}`,
+      `Payment status: ${o.payment_status}`,
     ]
       .filter((line) => line !== null)
       .join("\n");
