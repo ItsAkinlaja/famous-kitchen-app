@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/server";
 import { parseSettings } from "@/lib/settings";
 import { CreateOrderPayload } from "@/types";
-import { sendNewOrderNotification } from "@/lib/email";
+import { sendNewOrderNotification, sendOrderPlacedEmail } from "@/lib/email";
 import { rateLimit } from "@/lib/rateLimit";
 
 function isValidNigerianPhone(phone: string): boolean {
@@ -213,7 +213,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 8. Send admin email notification (fire-and-forget — never blocks the response)
+    // 8. Send admin email notification (fire-and-forget)
     sendNewOrderNotification({
       orderNumber: order.order_number,
       orderId: order.id,
@@ -231,6 +231,20 @@ export async function POST(req: NextRequest) {
       total,
       receiptUrl: data.receiptUrl,
       adminEmail: process.env.ADMIN_EMAIL ?? settings.email,
+    });
+
+    // 9. Send buyer order placed email (fire-and-forget)
+    sendOrderPlacedEmail({
+      orderNumber: order.order_number,
+      customerName: data.customerName,
+      customerEmail: data.email,
+      orderType: data.orderType,
+      deliveryLocation: data.deliveryLocation || null,
+      items: orderItemsData,
+      subtotal,
+      takeawayFee,
+      deliveryFee,
+      total,
     });
 
     return NextResponse.json({

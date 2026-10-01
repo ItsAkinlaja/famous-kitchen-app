@@ -331,3 +331,166 @@ export async function sendOrderConfirmedEmail(data: OrderConfirmedEmailData): Pr
     console.error("[email] sendOrderConfirmedEmail threw:", err);
   }
 }
+
+// ─── Order Placed Email (to customer immediately after placing order) ─────────
+
+export interface OrderPlacedEmailData {
+  orderNumber: string;
+  customerName: string;
+  customerEmail: string;
+  orderType: "pickup" | "delivery";
+  deliveryLocation: string | null;
+  items: { item_name: string; quantity: number; unit_price: number; subtotal: number }[];
+  subtotal: number;
+  takeawayFee: number;
+  deliveryFee: number;
+  total: number;
+}
+
+function buildOrderPlacedHtml(d: OrderPlacedEmailData): string {
+  const itemRows = d.items
+    .map(
+      (i) => `
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #e7e5e4;font-size:14px;color:#1c1917;">${i.item_name}</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #e7e5e4;font-size:14px;color:#1c1917;text-align:center;">${i.quantity}</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #e7e5e4;font-size:14px;color:#1c1917;text-align:right;">${formatCurrency(i.subtotal)}</td>
+      </tr>`
+    )
+    .join("");
+
+  const feeRows =
+    d.orderType === "delivery"
+      ? `<tr>
+          <td colspan="2" style="padding:8px 12px;font-size:14px;color:#57534e;">Takeaway packaging</td>
+          <td style="padding:8px 12px;font-size:14px;color:#57534e;text-align:right;">${formatCurrency(d.takeawayFee)}</td>
+        </tr>
+        <tr>
+          <td colspan="2" style="padding:8px 12px;font-size:14px;color:#57534e;">Delivery fee</td>
+          <td style="padding:8px 12px;font-size:14px;color:#57534e;text-align:right;">${formatCurrency(d.deliveryFee)}</td>
+        </tr>`
+      : "";
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f5f5f4;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f4;padding:32px 16px;">
+    <tr><td align="center">
+      <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #e7e5e4;">
+
+        <!-- Header with logo -->
+        <tr>
+          <td style="background:#FC0003;padding:20px 32px;text-align:center;">
+            <img src="${LOGO_URL}" alt="Famous Kitchen" width="120" style="display:block;margin:0 auto;height:auto;max-height:60px;object-fit:contain;" />
+          </td>
+        </tr>
+
+        <!-- Hero -->
+        <tr>
+          <td style="padding:32px 32px 0;text-align:center;">
+            <h1 style="margin:0;font-size:22px;font-weight:700;color:#1c1917;">Order Received!</h1>
+            <p style="margin:8px 0 0;font-size:15px;color:#57534e;">
+              Hi ${d.customerName}, we have received your order and your payment is being verified.
+            </p>
+          </td>
+        </tr>
+
+        <!-- Status message -->
+        <tr>
+          <td style="padding:20px 32px 0;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="background:#fef3c7;border:1px solid #fcd34d;border-radius:8px;padding:16px;">
+              <tr>
+                <td style="text-align:center;">
+                  <p style="margin:0;font-size:15px;font-weight:600;color:#1c1917;">Mr Famous is verifying your payment</p>
+                  <p style="margin:6px 0 0;font-size:13px;color:#78716c;">
+                    You will receive a message via <strong>WhatsApp</strong> and another email once your order is confirmed and ready.
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Order number + type -->
+        <tr>
+          <td style="padding:20px 32px 0;">
+            <p style="margin:0;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:#78716c;">Order Reference</p>
+            <p style="margin:4px 0 0;font-size:20px;font-weight:700;color:#1c1917;">#${d.orderNumber}</p>
+            <p style="margin:4px 0 0;font-size:13px;color:#78716c;">
+              ${d.orderType === "delivery" ? "Delivery" : "Pickup"}
+              ${d.deliveryLocation ? ` — ${d.deliveryLocation}` : ""}
+            </p>
+          </td>
+        </tr>
+
+        <!-- Order items -->
+        <tr>
+          <td style="padding:16px 32px 0;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e7e5e4;border-radius:6px;overflow:hidden;">
+              <thead>
+                <tr style="background:#f5f5f4;">
+                  <th style="padding:8px 12px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:#78716c;text-align:left;">Item</th>
+                  <th style="padding:8px 12px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:#78716c;text-align:center;">Qty</th>
+                  <th style="padding:8px 12px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:#78716c;text-align:right;">Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${itemRows}
+                ${feeRows}
+                <tr style="background:#f5f5f4;">
+                  <td colspan="2" style="padding:10px 12px;font-size:14px;font-weight:700;color:#1c1917;">Total</td>
+                  <td style="padding:10px 12px;font-size:14px;font-weight:700;color:#FC0003;text-align:right;">${formatCurrency(d.total)}</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+
+        <!-- What happens next -->
+        <tr>
+          <td style="padding:20px 32px 0;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f4;border-radius:6px;padding:16px;">
+              <tr><td style="font-size:13px;font-weight:600;color:#1c1917;padding-bottom:8px;">What happens next?</td></tr>
+              <tr><td style="font-size:13px;color:#57534e;padding-bottom:4px;">1. We verify your payment receipt</td></tr>
+              <tr><td style="font-size:13px;color:#57534e;padding-bottom:4px;">2. We confirm your order and start preparing your food</td></tr>
+              <tr><td style="font-size:13px;color:#57534e;">3. You receive a WhatsApp message when your order is ready</td></tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td style="padding:24px 32px;border-top:1px solid #e7e5e4;margin-top:20px;text-align:center;">
+            <p style="margin:0;font-size:13px;color:#78716c;">Thank you for choosing Famous Kitchen</p>
+            <p style="margin:6px 0 0;font-size:12px;color:#a8a29e;">NYSC Camp · Imo State · Open 7:00 AM – 10:00 PM</p>
+          </td>
+        </tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+}
+
+/**
+ * Sends an order-placed confirmation email to the customer immediately after order creation.
+ * Failures are logged but never thrown.
+ */
+export async function sendOrderPlacedEmail(data: OrderPlacedEmailData): Promise<void> {
+  try {
+    const { error } = await resend.emails.send({
+      from: "Famous Kitchen <onboarding@resend.dev>",
+      to: data.customerEmail,
+      subject: `Order received — #${data.orderNumber}`,
+      html: buildOrderPlacedHtml(data),
+    });
+
+    if (error) {
+      console.error("[email] sendOrderPlacedEmail failed:", error);
+    }
+  } catch (err) {
+    console.error("[email] sendOrderPlacedEmail threw:", err);
+  }
+}
