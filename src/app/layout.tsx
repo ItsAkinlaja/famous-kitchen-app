@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -25,6 +24,10 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  // Google AdSense verification meta tag
+  other: {
+    "google-adsense-account": "ca-pub-8721422773820027",
+  },
 };
 
 export default function RootLayout({
@@ -34,15 +37,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning>
-        {/* Google AdSense */}
-        <Script
+      <head>
+        {/* Google AdSense — in <head> so the crawler sees it in static HTML */}
+        <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8721422773820027"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
         />
-
+      </head>
+      <body suppressHydrationWarning>
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:bg-stone-900 focus:px-4 focus:py-2 focus:text-sm focus:text-white"
