@@ -50,9 +50,11 @@ export function Footer() {
             <ul className="mt-4 space-y-3">
               {[
                 { href: "/menu", label: "Menu" },
+                { href: "/about", label: "About" },
                 { href: "/how-it-works", label: "How It Works" },
                 { href: "/contact", label: "Contact" },
                 { href: "/checkout", label: "Checkout" },
+                { href: "/privacy-policy", label: "Privacy Policy" },
               ].map(({ href, label }) => (
                 <li key={href}>
                   <Link
