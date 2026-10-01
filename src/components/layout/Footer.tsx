@@ -98,17 +98,25 @@ export function Footer() {
           <p className="text-xs text-stone-500">
             &copy; {new Date().getFullYear()} Famous Kitchen. All rights reserved.
           </p>
-          <p className="text-xs text-stone-500">
-            Designed &amp; developed by{" "}
+          <div className="flex items-center gap-4">
             <a
-              href="https://www.akinlajatimileyin.dev"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-amber-400 hover:text-amber-300 transition-colors font-medium"
+              href="/privacy-policy"
+              className="text-xs text-stone-500 hover:text-stone-400 transition-colors"
             >
-              Akinlaja Timileyin
+              Privacy Policy
             </a>
-          </p>
+            <p className="text-xs text-stone-500">
+              Designed &amp; developed by{" "}
+              <a
+                href="https://www.akinlajatimileyin.dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-amber-400 hover:text-amber-300 transition-colors font-medium"
+              >
+                Akinlaja Timileyin
+              </a>
+            </p>
+          </div>
         </div>
       </div>
 
