@@ -110,7 +110,7 @@ export function Footer() {
             <p className="text-xs text-stone-500">
               Designed &amp; developed by{" "}
               <a
-                href="https://www.akinlajatimileyin.dev"
+                href="https://www.instagram.com/its_Akinlaja"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-amber-400 hover:text-amber-300 transition-colors font-medium"
