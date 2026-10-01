@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { OrderWithItems, OrderStatus, PaymentStatus } from "@/types";
 import { formatCurrency } from "@/lib/settings";
 import { PaymentStatusBadge, OrderStatusBadge } from "@/components/ui/StatusBadge";
@@ -31,7 +30,7 @@ export function AdminOrderModal({ order, onClose, onUpdate }: AdminOrderModalPro
   const [rejectionReason, setRejectionReason] = useState(order.payment_rejection_reason ?? "");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [showReceipt, setShowReceipt] = useState(false);
+  const [showReceipt, setShowReceipt] = useState(true);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
   // Lock body scroll
@@ -251,13 +250,20 @@ export function AdminOrderModal({ order, onClose, onUpdate }: AdminOrderModalPro
 
               {showReceipt && (
                 <div className="px-4 pb-4">
-                  <div className="relative h-64 w-full overflow-hidden rounded-lg border border-stone-200 bg-stone-100">
-                    <Image
+                  <div className="relative w-full overflow-hidden rounded-lg border border-stone-200 bg-stone-100">
+                    <img
                       src={order.receipt_url}
                       alt="Payment receipt"
-                      fill
-                      className="object-contain"
+                      className="w-full h-auto object-contain max-h-96"
                     />
+                    <a
+                      href={order.receipt_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-[#FC0003] hover:underline"
+                    >
+                      Open full size
+                    </a>
                   </div>
                 </div>
               )}
