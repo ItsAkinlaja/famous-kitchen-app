@@ -8,25 +8,11 @@ import { formatCurrency } from "@/lib/settings";
 import { Button } from "@/components/ui/Button";
 import { Minus, Plus, X, ShoppingBag, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { getMenuItemImage } from "@/lib/menuImages";
 
 interface MenuItemCardProps {
   item: MenuItem;
 }
-
-// Fallback images by item name (case-insensitive match).
-const FALLBACK_IMAGES: Record<string, string> = {
-  "spaghetti":              "https://ik.imagekit.io/scmchurch/images%20(1).jpg?updatedAt=1790810761811",
-  "noodles":                "https://ik.imagekit.io/scmchurch/images%20(2).jpg",
-  "yam and egg sauce":      "https://ik.imagekit.io/scmchurch/sddefault.jpg",
-  "plantain and egg sauce": "https://ik.imagekit.io/scmchurch/images%20(3).jpg",
-  "toasted bread":          "https://ik.imagekit.io/scmchurch/hqdefault.jpg",
-  "tea":                    "https://ik.imagekit.io/scmchurch/Masala-Chai-Tea-Recipe-Card.jpg",
-  "coffee":                 "https://ik.imagekit.io/scmchurch/150929101049-black-coffee-stock.jpg",
-  "salad":                  "https://ik.imagekit.io/scmchurch/healthy-cobb-salad-steps-sq-026.jpg",
-  "chicken":                "https://ik.imagekit.io/scmchurch/1371589386937.webp",
-  "beef":                   "https://ik.imagekit.io/scmchurch/images%20(4).jpg",
-  "takeaway packaging":     "https://ik.imagekit.io/scmchurch/images%20(5).jpg",
-};
 
 // Corper-friendly descriptions per item
 const ITEM_DESCRIPTIONS: Record<string, { tagline: string; description: string; tags: string[] }> = {
@@ -86,11 +72,6 @@ const ITEM_DESCRIPTIONS: Record<string, { tagline: string; description: string; 
     tags: ["For delivery", "Clean & secure", "Hostel friendly"],
   },
 };
-
-function getImageUrl(item: MenuItem): string | null {
-  if (item.image_url) return item.image_url;
-  return FALLBACK_IMAGES[item.name.toLowerCase()] ?? null;
-}
 
 function getItemInfo(name: string) {
   return ITEM_DESCRIPTIONS[name.toLowerCase()] ?? {
@@ -283,7 +264,7 @@ export function MenuItemCard({ item }: MenuItemCardProps) {
 
   const cartItem = cartItems.find((i) => i.menuItemId === item.id);
   const quantity = cartItem?.quantity ?? 0;
-  const imageUrl = getImageUrl(item);
+  const imageUrl = getMenuItemImage(item);
 
   function handleAdd() {
     addItem({ menuItemId: item.id, name: item.name, price: item.price, imageUrl });

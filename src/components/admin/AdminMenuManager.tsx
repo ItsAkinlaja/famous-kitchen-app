@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { AdminMenuItemForm } from "./AdminMenuItemForm";
 import { Badge } from "@/components/ui/Badge";
 import { createClient } from "@/lib/supabase/client";
+import { getMenuItemImage } from "@/lib/menuImages";
 
 interface AdminMenuManagerProps {
   initialItems: MenuItem[];
@@ -86,18 +87,21 @@ export function AdminMenuManager({ initialItems }: AdminMenuManagerProps) {
                   <tr key={item.id} className="hover:bg-stone-50 transition-colors">
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
-                        {item.image_url ? (
-                          <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded border border-stone-100 bg-stone-100">
-                            <Image
-                              src={item.image_url}
-                              alt={item.name}
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                        ) : (
-                          <div className="h-10 w-10 shrink-0 rounded border border-stone-100 bg-stone-100" />
-                        )}
+                        {(() => {
+                          const imgUrl = getMenuItemImage(item);
+                          return imgUrl ? (
+                            <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded border border-stone-100 bg-stone-100">
+                              <Image
+                                src={imgUrl}
+                                alt={item.name}
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                          ) : (
+                            <div className="h-10 w-10 shrink-0 rounded border border-stone-100 bg-stone-100" />
+                          );
+                        })()}
                         <div>
                           <p className="font-medium text-stone-900">{item.name}</p>
                           {item.description && (
