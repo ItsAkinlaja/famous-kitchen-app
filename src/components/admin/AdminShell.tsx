@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
-import { LayoutDashboard, ShoppingBag, UtensilsCrossed, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, ShoppingBag, UtensilsCrossed, Settings, LogOut, ExternalLink } from "lucide-react";
 import { useState } from "react";
 
 const NAV = [
@@ -60,7 +60,16 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             );
           })}
         </nav>
-        <div className="border-t border-stone-100 p-3">
+        <div className="border-t border-stone-100 p-3 flex flex-col gap-1">
+          <Link
+            href="/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex w-full items-center gap-2.5 rounded px-2.5 py-2 text-sm text-stone-500 hover:bg-stone-50 hover:text-stone-700 transition-colors"
+          >
+            <ExternalLink className="h-4 w-4" />
+            Main site
+          </Link>
           <button
             onClick={handleSignOut}
             disabled={signingOut}

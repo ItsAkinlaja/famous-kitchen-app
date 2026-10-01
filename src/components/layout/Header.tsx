@@ -20,9 +20,12 @@ export function Header() {
   const getSubtotal = useCartStore((s) => s.getSubtotal);
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
-  const subtotal = getSubtotal();
+  useEffect(() => { setMounted(true); }, []);
+
+  const totalItems = mounted ? items.reduce((sum, i) => sum + i.quantity, 0) : 0;
+  const subtotal = mounted ? getSubtotal() : 0;
 
   // Close drawer on route change
   useEffect(() => {
@@ -80,28 +83,19 @@ export function Header() {
           {/* Right side */}
           <div className="flex items-center gap-2">
 
-            {/* Cart — always visible */}
-            <Link
-              href="/checkout"
-              aria-label={
-                totalItems > 0
-                  ? `View order — ${totalItems} item${totalItems !== 1 ? "s" : ""}, ${formatCurrency(subtotal)}`
-                  : "Your order is empty"
-              }
-              className={cn(
-                "flex items-center gap-1.5 rounded px-3 py-1.5 text-sm font-medium transition-colors",
-                totalItems > 0
-                  ? "bg-[#FC0003] text-white hover:bg-[#d40002]"
-                  : "bg-stone-100 text-stone-400 pointer-events-none"
-              )}
-            >
-              <ShoppingBag className="h-4 w-4 shrink-0" />
-              {totalItems > 0 && (
+            {/* Cart — only show when there are items */}
+            {totalItems > 0 && (
+              <Link
+                href="/checkout"
+                aria-label={`View order — ${totalItems} item${totalItems !== 1 ? "s" : ""}, ${formatCurrency(subtotal)}`}
+                className="flex items-center gap-1.5 rounded px-3 py-1.5 text-sm font-medium transition-colors bg-[#FC0003] text-white hover:bg-[#d40002]"
+              >
+                <ShoppingBag className="h-4 w-4 shrink-0" />
                 <span className="tabular-nums">
                   {totalItems} · {formatCurrency(subtotal)}
                 </span>
-              )}
-            </Link>
+              </Link>
+            )}
 
             {/* Hamburger — mobile only */}
             <button
