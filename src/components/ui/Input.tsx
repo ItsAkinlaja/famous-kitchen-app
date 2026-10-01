@@ -30,7 +30,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           id={inputId}
           className={cn(
-            "h-10 w-full rounded border border-stone-300 bg-white px-3 text-sm text-stone-900 placeholder:text-stone-400",
+            "h-10 w-full rounded border border-stone-300 bg-white px-3 text-base sm:text-sm text-stone-900 placeholder:text-stone-400",
             "focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500",
             "disabled:cursor-not-allowed disabled:bg-stone-50 disabled:text-stone-500",
             error && "border-red-400 focus:border-red-500 focus:ring-red-500",
