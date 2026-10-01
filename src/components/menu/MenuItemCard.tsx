@@ -31,57 +31,57 @@ const FALLBACK_IMAGES: Record<string, string> = {
 // Corper-friendly descriptions per item
 const ITEM_DESCRIPTIONS: Record<string, { tagline: string; description: string; tags: string[] }> = {
   "spaghetti": {
-    tagline: "The camp favourite 🍝",
+    tagline: "The camp favourite",
     description: "Perfectly cooked spaghetti loaded with rich tomato sauce, seasoned proteins, and fresh veggies. This one hits different after a long parade ground session — trust us.",
     tags: ["Most popular", "Filling", "Hot & fresh"],
   },
   "noodles": {
-    tagline: "Quick, hot & satisfying 🍜",
+    tagline: "Quick, hot & satisfying",
     description: "Stir-fried noodles packed with flavour and cooked to order. Light on your pocket, heavy on taste. Perfect for any time of day — breakfast, lunch or dinner.",
     tags: ["Quick ready", "Budget friendly", "Fan favourite"],
   },
   "yam and egg sauce": {
-    tagline: "Classic Nigerian comfort food 🍳",
+    tagline: "Classic Nigerian comfort food",
     description: "Soft boiled yam paired with a rich, spicy egg sauce. The kind of meal that reminds you of home. Proper, filling, and made with love — just like mama used to make.",
     tags: ["Nigerian classic", "Filling", "Home vibes"],
   },
   "plantain and egg sauce": {
-    tagline: "Sweet meets savoury 🍌",
+    tagline: "Sweet meets savoury",
     description: "Ripe fried plantain with a perfectly seasoned egg sauce. The sweet-savoury combo that never gets old. A corper staple — simple, delicious, and always satisfying.",
     tags: ["Sweet & savoury", "Corper staple", "Energy boost"],
   },
   "toasted bread": {
-    tagline: "Light bite, big energy ☕",
+    tagline: "Light bite, big energy",
     description: "Golden crispy toast, perfect for breakfast or a quick snack between activities. Pair it with tea or coffee for the ultimate camp morning combo.",
     tags: ["Light snack", "Breakfast", "Quick pick-up"],
   },
   "tea": {
-    tagline: "Your morning sorted ☕",
+    tagline: "Your morning sorted",
     description: "Warm, soothing tea to kick-start your day at camp. Whether you need to wake up for early morning parade or just want something calming — this is it.",
     tags: ["Morning essential", "Warm & soothing", "Pairs with bread"],
   },
   "coffee": {
-    tagline: "Stay sharp, stay focused ☕",
+    tagline: "Stay sharp, stay focused",
     description: "Rich, bold coffee that cuts through the early morning fog. When 5AM parade feels like a punishment, this cup will get you through it. Corpers run on this.",
     tags: ["Energising", "Bold flavour", "Early morning saviour"],
   },
   "salad": {
-    tagline: "Fresh & clean 🥗",
+    tagline: "Fresh & clean",
     description: "A crisp, fresh salad loaded with colourful veggies. Light but satisfying — perfect for when you want something healthy without sacrificing flavour. Your body will thank you.",
     tags: ["Healthy", "Fresh", "Light & clean"],
   },
   "chicken": {
-    tagline: "Protein loading 🍗",
+    tagline: "Protein loading",
     description: "Juicy, well-seasoned chicken — the ultimate protein boost for corpers putting in work. Whether you're adding it to your meal or eating it solo, it hits every single time.",
     tags: ["High protein", "Juicy & tender", "Add-on available"],
   },
   "beef": {
-    tagline: "For the meaty ones 🥩",
+    tagline: "For the meaty ones",
     description: "Tender, well-cooked beef with deep seasoning. Add it to any meal or have it on its own. The kind of protein that keeps you going through all the camp activities.",
     tags: ["High protein", "Tender cut", "Pairs with everything"],
   },
   "takeaway packaging": {
-    tagline: "Take it anywhere on camp 📦",
+    tagline: "Take it anywhere on camp",
     description: "Clean, sturdy takeaway packaging so your food stays fresh and secure wherever you go on camp. Perfect for delivery orders or eating in your hostel without the mess.",
     tags: ["For delivery", "Clean & secure", "Hostel friendly"],
   },
@@ -94,7 +94,7 @@ function getImageUrl(item: MenuItem): string | null {
 
 function getItemInfo(name: string) {
   return ITEM_DESCRIPTIONS[name.toLowerCase()] ?? {
-    tagline: "Fresh from our kitchen 🍽️",
+    tagline: "Fresh from our kitchen",
     description: "Made fresh daily at Famous Kitchen. Pre-order now and have it ready when you need it — no queues, no stress.",
     tags: ["Fresh daily", "Made to order"],
   };
