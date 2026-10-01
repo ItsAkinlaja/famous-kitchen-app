@@ -1,9 +1,9 @@
-import { createClient } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/server";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { formatCurrency } from "@/lib/settings";
 
 async function getOverviewStats() {
-  const supabase = await createClient();
+  const supabase = await createServiceClient();
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);

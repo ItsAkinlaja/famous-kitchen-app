@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/server";
 import { parseSettings } from "@/lib/settings";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { AdminSettingsForm } from "@/components/admin/AdminSettingsForm";
@@ -6,7 +6,7 @@ import { AdminSettingsForm } from "@/components/admin/AdminSettingsForm";
 export const revalidate = 0;
 
 export default async function AdminSettingsPage() {
-  const supabase = await createClient();
+  const supabase = await createServiceClient();
   const { data: settingsRows } = await supabase.from("settings").select("*");
   const settings = parseSettings(settingsRows ?? []);
 

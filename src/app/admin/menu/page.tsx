@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/server";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { AdminMenuManager } from "@/components/admin/AdminMenuManager";
 import { MenuItem } from "@/types";
@@ -6,7 +6,7 @@ import { MenuItem } from "@/types";
 export const revalidate = 0;
 
 export default async function AdminMenuPage() {
-  const supabase = await createClient();
+  const supabase = await createServiceClient();
 
   const { data, error } = await supabase
     .from("menu_items")
