@@ -141,7 +141,7 @@ function buildEmailHtml(d: NewOrderEmailData): string {
         <tr>
           <td style="padding:24px 32px;margin-top:8px;border-top:1px solid #e7e5e4;margin-top:20px;">
             <p style="margin:0;font-size:12px;color:#a8a29e;">
-              Log in to the admin panel to confirm or reject this order.
+              Log in to <a href="https://famous-kitchen-nine.vercel.app/admin" style="color:#FC0003;text-decoration:none;">the admin panel</a> to confirm or reject this order.
             </p>
           </td>
         </tr>

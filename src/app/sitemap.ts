@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://famous-kitchen-app.vercel.app";
+  const base = "https://famous-kitchen-nine.vercel.app";
 
   return [
     { url: base, lastModified: new Date(), changeFrequency: "daily", priority: 1 },

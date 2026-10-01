@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/admin/", "/api/"],
     },
-    sitemap: "https://famous-kitchen-app.vercel.app/sitemap.xml",
+    sitemap: "https://famous-kitchen-nine.vercel.app/sitemap.xml",
   };
 }
