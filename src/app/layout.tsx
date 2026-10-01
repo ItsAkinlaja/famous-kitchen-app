@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
-
-// ── Google AdSense ──────────────────────────────────────────────────────────
-// Replace YOUR_ADSENSE_ID below with your real publisher ID (ca-pub-XXXXXXXXXXXXXXXX)
-// after your AdSense account is approved. Then uncomment the <Script> tag.
-// import Script from "next/script";
-const ADSENSE_ID = ""; // e.g. "ca-pub-1234567890123456"
 
 export const metadata: Metadata = {
   title: {
@@ -40,16 +35,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning>
-        {/* Uncomment once AdSense is approved and ADSENSE_ID is set:
-        {ADSENSE_ID && (
-          <Script
-            async
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_ID}`}
-            crossOrigin="anonymous"
-            strategy="afterInteractive"
-          />
-        )}
-        */}
+        {/* Google AdSense */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8721422773820027"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:bg-stone-900 focus:px-4 focus:py-2 focus:text-sm focus:text-white"
